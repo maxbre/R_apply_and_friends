@@ -1,0 +1,168 @@
+# apply
+
+****
+
+```{r, echo=FALSE}
+str(apply)
+```
+
+it does the following:
+
+- evaluates a function (quite often an anonymous function) over the margins of an array or matrix (which is a special case of 2* matrix) 
+
+to note that second argument of *apply* (margin) indicates which dimension of the array (matrix) is going to be preserved (or retained)
+
+```{r}
+# define a matrix 20*10 filled with normal random numbers
+x<- matrix(rnorm(50), 10, 5)
+```
+
+```{r}
+# apply the mean on the rows (preserve rows, collapse columns)
+apply(x, 1, mean)
+
+# same result as above by using 
+rowMeans(x) 
+
+# apply the mean over the columns (preserve columns, collapse rows)
+apply(x, 2, mean)
+
+# same result as above by using 
+colMeans(x) 
+
+```
+
+# lapply (list apply)
+***
+
+```{r, echo=FALSE}
+str(lapply)
+```
+
+it does the following:
+
+- loops over a list (iteration over each element in the list)
+- applies a *function* to each element of a list
+- returns a list
+
+```{r}
+# define a list
+x<-list(a=1:10, b=rnorm(10), c=runif(10))
+```
+
+```{r}
+# apply the function mean to all elements of the list
+lapply(x, mean)
+```
+
+*lapply()* takes elements of the list and passes them as first argument of the function being applied: elements of sequence 1:3 are passed to the n argument of function *runif()*
+
+```{r}
+# evalute a function multiple times
+lapply(1:3, runif)
+```
+
+*lapply()* accepts many arguments of the function passed as the main argument; i.e. any argument placed in the ... argument of function *lapply()* is passed down to the function which is applied to the single elements of the list
+
+```{r}
+# pass addtitional arguments of the function runif
+lapply(1:3, runif, min=1, max=5)
+```
+
+*lapply()* very frequently makes use of anonymous functions: i.e. functions are
+generated "on the fly" (once the call to *lapply()* is finished, the function
+disappears and does not appear in the workspace)
+
+
+# sapply (simplyfing list apply)
+
+***
+
+```{r, echo=FALSE}
+str(sapply)
+```
+
+*sapply()* behaves similarly to *lapply()* with a difference in the returned value: sapply() tries to simplify the result whenever it is possible (if the result is a list where each element is of length 1 or a vector of the same length (>1), it returns a vector or a matrix;in other cases the result is again a list
+
+```{r}
+# compare with result of lapply()
+sapply(x, mean)
+```
+
+# vapply (list apply returning a vector)
+
+***
+
+```{r, echo=FALSE}
+str(vapply)
+```
+
+*vapply()* simplifies the result to be a vector or an array very much the same as *sapply()* but it takes a third argument specifying the template for  returned values
+
+```{r}
+# compare with result of lapply()
+vapply(x, mean, numeric(1))
+```
+
+if the output does not fit the specified template, then *vapply()* will throw an error (which makes it less flexible than lapply, since the output must be the same size for each element and must be known in advance)
+
+# tapply (apply to... tables?)
+
+***
+
+```{r, echo=FALSE}
+str(tapply)
+```
+
+it is used to apply a function over subsets of a vector; it can be thought as a combination of *split()* and *sapply()* to vectors
+
+
+```{r}
+# define some data
+x<- c(rnorm(10), runif(10), 1:10)
+# define some groups (factors)
+f<- gl(3,10)
+```
+
+```{r}
+tapply(x, f, mean)
+```
+
+# mapply (multiple argument list apply)
+
+***
+
+```{r, echo=FALSE}
+# it passes the sequence 1:3 to the first argument and the sequence 3:1 to the second argument of the function *rep()*
+str(mapply)
+```
+
+it can be thought as multivariate *apply()* version, it applies a function in parallel over a set of defined arguments (it is used to iterate over multiple R object in parallel)
+
+```{r}
+mapply(rep, 1:3, 3:1)
+```
+*mapply()* behaves in the same way as sapply, by simplifying the output if it is possible; i can be used to "vectorize a function"
+
+```{r}
+# user defined function
+sumsq<- function(m,s,x) {
+  sum(((x-m)/s)^2)
+}
+
+# some data
+x<- rnorm(100)
+
+```
+
+
+```{r}
+mapply(sumsq,1:5,1:5, MoreArgs=list(x=x))
+```
+
+to note that very much the same result is obtained by calling the R function *Vectorize()* which creates a vectorized version of the user defined function
+
+```{r}
+vsumsq<- Vectorize(sumsq, c("m","s"))
+vsumsq(1:5, 1:5, x)
+```

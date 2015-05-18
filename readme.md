@@ -1,0 +1,3 @@
+# my little reminder...
+***
+# ...of R functions "apply and friends" 
