@@ -133,15 +133,16 @@ tapply(x, f, mean)
 ***
 
 ```{r, echo=FALSE}
-# it passes the sequence 1:3 to the first argument and the sequence 3:1 to the second argument of the function *rep()*
 str(mapply)
 ```
 
 it can be thought as multivariate *apply()* version, it applies a function in parallel over a set of defined arguments (it is used to iterate over multiple R object in parallel)
 
 ```{r}
+# it passes the sequence 1:3 to the first argument and the sequence 3:1 to the second argument of the function *rep()*
 mapply(rep, 1:3, 3:1)
 ```
+
 *mapply()* behaves in the same way as sapply, by simplifying the output if it is possible; i can be used to "vectorize a function"
 
 ```{r}
