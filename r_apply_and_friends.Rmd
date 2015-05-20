@@ -8,12 +8,12 @@ str(apply)
 
 it does the following:
 
-- evaluates a function (quite often an anonymous function) over the margins of an array or matrix (which is a special case of 2* matrix) 
+- evaluates a function (quite often an anonymous function) over the margins of an array or matrix (which is a special case of a 2*2 matrix) 
 
 to note that second argument of *apply* (margin) indicates which dimension of the array (matrix) is going to be preserved (or retained)
 
 ```{r}
-# define a matrix 20*10 filled with normal random numbers
+# define a matrix 10*5 filled with normal random numbers
 x<- matrix(rnorm(50), 10, 5)
 ```
 
