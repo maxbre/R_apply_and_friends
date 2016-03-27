@@ -1,33 +1,40 @@
 # split-apply-combine
 ***
+a very common problem in data analysis is how to calculate some statistics upon a variable that has been split into different groups (typically factors);
 
 the combination of the function *split()* along with the function *lapply()*, or eventually *sapply()*, is a common strategy in R for calculating some statistic on a variable stratified by different goups;
 
 the data structure is split into subsets defined by another variable, a function is applied over the subsets and the results are finally collated and returned as a new R object
 
+## example 1: vectors
+
 ```{r}
 # define some data
-x <- c(rnorm(10), runif(10))
+(x <- c(rnorm(10), runif(10)))
 
 # define some groups (factors)
-f <- gl(2, 10)
+(f <- gl(2, 10))
 
 # split the data over the groups (factors)
 # to note that a list is returned by split()
-x.f<-split(x, f)
+(x.f<-split(x, f))
 
 # apply the mean to each element of the list
- lapply(x.f, mean)
+(mean_by_group<-lapply(x.f, mean))
+ 
+# combine results into a single vector
+unlist(mean_by_group)
 ```
 
-the same approach is also possible with a dataframe
+## example 2: dataframe
+obviously the same approach is possible with a dataframe
 
 ```{r}
 s <- split(airquality, airquality$Month)
 # lapply the function colMeans
-lapply(s, function(x) {colMeans(x[, c("Ozone", "Solar.R", "Wind")], na.rm = TRUE)})
+(lapply(s, function(x) {colMeans(x[, c("Ozone", "Solar.R", "Wind")], na.rm = TRUE)}))
 # or alternatively sapply for a more compact result
-sapply(s, function(x) {colMeans(x[, c("Ozone", "Solar.R", "Wind")], na.rm = TRUE)})
+(sapply(s, function(x) {colMeans(x[, c("Ozone", "Solar.R", "Wind")], na.rm = TRUE)}))
 ```
 
 split-apply with interaction (combination) of variables
@@ -36,35 +43,30 @@ split-apply with interaction (combination) of variables
 # define some data
 x <- rnorm(12)
 # define factor 1
-f1 <- gl(4, 3)
+(f1 <- gl(4, 3))
 # define factor 2
-f2 <- gl(3, 4)
+(f2 <- gl(3, 4))
 # interaction of variables (factors)
-f1.f2<-interaction(f1, f2)
+(f1.f2<-interaction(f1, f2))
 # split by dropping empty levels
-x.f1.f2<-split(x, f1.f2, drop = TRUE)
+(x.f1.f2<-split(x, f1.f2, drop = TRUE))
 # lapply the function mean
-lapply(x.f1.f2, mean)
+(lapply(x.f1.f2, mean))
 # or sapply the function mean
-sapply(x.f1.f2, mean)
-
+(sapply(x.f1.f2, mean))
 ```
 
-
-
-# apply to an array
-***
-
+## example 3: array
+and finally with an array
 ```{r}
 # define an array (2*2)*5 (i.e. 5 matrices 2*2 ) filled with normal random numbers
-x<- array(rnorm(2*2*5),c(2,2,5))
-x
+(x<- array(rnorm(2*2*5),c(2,2,5)))
 ```
 
 ```{r}
 # apply the mean over the third dimension of the array
 # i.e preserve first and second dimensions
-apply(x, c(1,2), mean)
+(apply(x, c(1,2), mean))
 ```
 
 

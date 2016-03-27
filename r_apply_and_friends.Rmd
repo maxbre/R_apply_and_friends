@@ -8,7 +8,7 @@ str(apply)
 
 it does the following:
 
-- evaluates a function (quite often an anonymous function) over the margins of an array or matrix (which is a special case of a 2*2 matrix) 
+- evaluates a function (quite often an anonymous function) over the margins of a matrix or an array
 
 to note that second argument of *apply* (margin) indicates which dimension of the array (matrix) is going to be preserved (or retained)
 
@@ -18,13 +18,13 @@ x<- matrix(rnorm(50), 10, 5)
 ```
 
 ```{r}
-# apply the mean on the rows (preserve rows, collapse columns)
+# apply the function mean over the rows (preserve rows, collapse columns)
 apply(x, 1, mean)
 
 # same result as above by using 
 rowMeans(x) 
 
-# apply the mean over the columns (preserve columns, collapse rows)
+# apply the function mean over the columns (preserve columns, collapse rows)
 apply(x, 2, mean)
 
 # same result as above by using 
@@ -55,7 +55,8 @@ x<-list(a=1:10, b=rnorm(10), c=runif(10))
 lapply(x, mean)
 ```
 
-*lapply()* takes elements of the list and passes them as first argument of the function being applied: elements of sequence 1:3 are passed to the n argument of function *runif()*
+*lapply()* takes elements of the list and passes them as first argument of the function being applied;
+in the next example elements of sequence 1:3 are passed to the n argument of function *runif()*
 
 ```{r}
 # evalute a function multiple times

@@ -1,6 +1,6 @@
 # my little reminder...
 ***
-# ...of R functions "apply and friends" 
+# ...of the R functions "apply and friends" 
 
 
 freely inspired and somehow taken from:
